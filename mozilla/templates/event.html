@@ -223,7 +223,6 @@
 
             <div class="col-md-4 mb-4">
 
-              {% for event in events %}
 
               <div class="card event-card shadow-sm h-100">
                 <div class="card-img-top" style="background-image: url('static/images/conf.png'); height: 250px; background-size: cover; background-position: center;"></div>
@@ -243,6 +242,8 @@
               </div>
             </div>
 
+            {% for event in events %}
+
             <div class="col-md-4 mb-4" id="session">
                 <div class="card past-event-card shadow-sm h-100">
                     <div class="card-img-top" 
@@ -256,7 +257,7 @@
                         <p class="card-text text-muted">
                             <i class="fa fa-map-marker-alt mr-2"></i>{{ event.venue }}
                         </p>
-                        <button type="button" class="btn btn-outline-secondary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#eventModal3">
+                        <button type="button" class="btn btn-outline-secondary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#eventModal{{ forloop.counter }}">
                             Know More <i class="fa fa-arrow-right"></i>
                         </button>
                     </div>
@@ -264,11 +265,11 @@
             </div>
 
             <!-- Modal for each event -->
-            <div class="modal fade" id="eventModal3" tabindex="-1" aria-labelledby="eventModal3Label" aria-hidden="true">
+            <div class="modal fade" id="eventModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="eventModal{{ forloop.counter }}Label" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered modal-lg">
                   <div class="modal-content">
                       <div class="modal-header">
-                          <h5 class="modal-title text-center w-100" id="eventModal3Label" 
+                          <h5 class="modal-title text-center w-100" id="eventModal{{ forloop.counter }}Label" 
                               style="color: #040f16; font-family: 'Times New Roman', Times, serif;">
                               {{ event.name }}
                           </h5>
@@ -283,42 +284,7 @@
               </div>
             </div>
 
-            
-          <div class="col-md-4 mb-4" id="conclave">
-            <div class="card past-event-card shadow-sm h-100">
-              <div class="card-img-top" style="background-image: url('static/images/conclave.avif'); height: 250px; background-size: cover; background-position: center;"></div>
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                  <small class="text-muted">Oct. 22, 2024</small>
-                </div>
-                <h5 class="card-title">Mozilla Responsible Computing Challenge Global Conclave</h5>
-                <p class="card-text text-muted">
-                  <i class="fa fa-map-marker-alt mr-2"></i>Gokulam Grand Resort and Spa, Kumarakom, Kerala
-                </p>
-                <button type="button" class="btn btn-outline-secondary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#eventModal2">
-                  Know More <i class="fa fa-arrow-right"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-          
-          <div class="col-md-4 mb-4" id="panel">
-            <div class="card past-event-card shadow-sm h-100">
-              <div class="card-img-top" style="background-image: url('static/images/panel_discussion.avif'); height: 250px; background-size: cover; background-position: center;"></div>
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                  <small class="text-muted">Oct. 8, 2024</small>
-                </div>
-                <h5 class="card-title">Panel Discussion</h5>
-                <p class="card-text text-muted">
-                  <i class="fa fa-map-marker-alt mr-2"></i>Marian College Kuttikkanam Autonomous
-                </p>
-                <button type="button" class="btn btn-outline-secondary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#eventModal1">
-                  Know More <i class="fa fa-arrow-right"></i>
-                </button>
-              </div>
-            </div>
-          </div>
+            {% endfor %}
 
           <div class="col-md-4 mb-4">
             <div class="card past-event-card shadow-sm h-100">
@@ -349,8 +315,6 @@
               </div>
             </div>
           </div>
-
-          {% endfor %}
 
         </div>
       </div>

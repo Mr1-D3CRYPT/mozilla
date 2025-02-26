@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Event
+from .models import Event,Project
 
 def index(request):
     return render(request, 'index.html')
@@ -21,4 +21,5 @@ def event_single(request):
     return render(request, 'event-single.html')
 
 def projects(request):
-    return render(request, 'projects.html')
+    projects = Project.objects.all()
+    return render(request, 'projects.html', {'projects': projects})

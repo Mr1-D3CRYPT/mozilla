@@ -204,107 +204,26 @@
     </section>
     
     
-    
     <section class="ftco-section">
       <div class="container">
-        <div class="row">
-          <!-- Group 1: Extension Activities -->
-          <div class="col-lg-3 col-md-6 col-sm-6 d-flex ftco-animate">
-            <div class="blog-entry align-self-stretch" style="padding-top: 20px;">
-              <div class="text p-4 d-block">
-                <h3 class="heading mt-3"><a href="#">Extension Activities</a></h3>
-                <p>A website to showcase the Extension activities carried out by our Extension Department.</p>
+          <div class="row">
+              <!-- Loop through all projects -->
+              {% for project in projects %}
+              <div class="col-lg-3 col-md-6 col-sm-6 d-flex ftco-animate">
+                  <div class="blog-entry align-self-stretch" style="padding-top: 20px;">
+                      <div class="text p-4 d-block">
+                          <h3 class="heading mt-3">
+                              {{ project.name }}
+                          </h3>
+                          <p>{{ project.description }}</p>
+                      </div>
+                  </div>
               </div>
-            </div>
+              {% endfor %}
           </div>
-          <!-- Group 2: NCC/NSS -->
-          <div class="col-lg-3 col-md-6 col-sm-6 d-flex ftco-animate">
-            <div class="blog-entry align-self-stretch" style="padding-top: 20px;">
-              <div class="text p-4 d-block">
-                <h3 class="heading mt-3"><a href="#">NCC/NSS</a></h3>
-                <p>A platform to highlight the initiatives taken by NCC and NSS at the college.</p>
-              </div>
-            </div>
-          </div>
-          <!-- Group 3: Community Development Program -->
-          <div class="col-lg-3 col-md-6 col-sm-6 d-flex ftco-animate">
-            <div class="blog-entry align-self-stretch" style="padding-top: 20px;">
-              <div class="text p-4 d-block">
-                <h3 class="heading mt-3"><a href="#">Community Development Program</a></h3>
-                <p>Project designed to highlight the initiatives undertaken by the college to support local communities and tackle social issues.</p>
-              </div>
-            </div>
-          </div>
-          <!-- Group 4: International Students Program -->
-          <div class="col-lg-3 col-md-6 col-sm-6 d-flex ftco-animate">
-            <div class="blog-entry align-self-stretch" style="padding-top: 20px;">
-              <div class="text p-4 d-block">
-                <h3 class="heading mt-3"><a href="#">International Students Program</a></h3>
-                <p>A blog-style website dedicated to international students at Marian College.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <!-- Group 5: Health Care -->
-          <div class="col-lg-3 col-md-6 col-sm-6 d-flex ftco-animate">
-            <div class="blog-entry align-self-stretch" style="padding-top: 20px;">
-              <div class="text p-4 d-block">
-                <h3 class="heading mt-3"><a href="#">Health Care</a></h3>
-                <p>Health care initiatives and wellness programs offered at the college.</p>
-              </div>
-            </div>
-          </div>
-          <!-- Group 6: Marian Sports Community -->
-          <div class="col-lg-3 col-md-6 col-sm-6 d-flex ftco-animate">
-            <div class="blog-entry align-self-stretch" style="padding-top: 20px;">
-              <div class="text p-4 d-block">
-                <h3 class="heading mt-3"><a href="#">Marian Sports Community</a></h3>
-                <p>Highlight the sports and athletic talents on our campus.</p>
-              </div>
-            </div>
-          </div>
-          <!-- Group 7: Green Campus -->
-          <div class="col-lg-3 col-md-6 col-sm-6 d-flex ftco-animate">
-            <div class="blog-entry align-self-stretch" style="padding-top: 20px;">
-              <div class="text p-4 d-block">
-                <h3 class="heading mt-3"><a href="#">Green Campus</a></h3>
-                <p>Environmental efforts implemented by our college and departments to promote a sustainable and eco-friendly campus.</p>
-              </div>
-            </div>
-          </div>
-          <!-- Group 8: Marian Alumni Association -->
-          <div class="col-lg-3 col-md-6 col-sm-6 d-flex ftco-animate">
-            <div class="blog-entry align-self-stretch" style="padding-top: 20px;">
-              <div class="text p-4 d-block">
-                <h3 class="heading mt-3"><a href="#">Marian Alumni Association</a></h3>
-                <p>Connecting alumni activities and fostering relationships between past and present students.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <!-- Group 9: Know Your Locality -->
-          <div class="col-lg-3 col-md-6 col-sm-6 d-flex ftco-animate">
-            <div class="blog-entry align-self-stretch" style="padding-top: 20px;">
-              <div class="text p-4 d-block">
-                <h3 class="heading mt-3"><a href="#">Know Your Locality</a></h3>
-                <p>Programs highlighting the local tourist spots, showcasing their significance and attractions.</p>
-              </div>
-            </div>
-          </div>
-          <!-- Group 10: Outreach Programs of College -->
-          <div class="col-lg-3 col-md-6 col-sm-6 d-flex ftco-animate">
-            <div class="blog-entry align-self-stretch" style="padding-top: 20px;">
-              <div class="text p-4 d-block">
-                <h3 class="heading mt-3"><a href="#">Outreach Programs of College</a></h3>
-                <p>Outreach programs conducted by various departments.</p>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
-    </section>
+  </section>
+  
 
   </main>    
 		
