@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import Event
 
 def index(request):
     return render(request, 'index.html')
@@ -13,7 +14,8 @@ def deliverables(request):
     return render(request, 'deliverables.html')
 
 def event(request):
-    return render(request, 'event.html')
+    events = Event.objects.all() 
+    return render(request, 'event.html', {'events': events}) 
 
 def event_single(request):
     return render(request, 'event-single.html')
