@@ -119,29 +119,76 @@
   <body>
 
     <script src="https://cdn.jsdelivr.net/gh/jerit-baiju/a11y-widget@latest/script.js"></script>
+
     <script>
-        const observer = new MutationObserver(() => {
-            const widget = document.querySelector("#accessibility-toggle");
-            if (widget) {
-                widget.style.position = "fixed";
-                widget.style.left = "20px";
-                widget.style.bottom = "20px"; /* Align to bottom */
-                widget.style.zIndex = "9999";
-                observer.disconnect();
+        function moveAccessibilityWidget() {
+            const widgetButton = document.querySelector("#accessibility-toggle");
+            const widgetPanel = document.querySelector(".a11y-widget-container");
+
+            if (widgetButton) {
+                widgetButton.style.position = "fixed";
+                widgetButton.style.right = "20px";
+                widgetButton.style.left = "auto"; 
+                widgetButton.style.bottom = "20px";
+                widgetButton.style.zIndex = "9999";
             }
-        });
-        observer.observe(document.body, { childList: true, subtree: true });
+
+            if (widgetPanel) {
+                widgetPanel.style.position = "fixed";
+                widgetPanel.style.right = "20px";  // Keep it on the right
+                widgetPanel.style.left = "auto";  // Remove left positioning
+                widgetPanel.style.bottom = "60px";  // Adjust height
+                widgetPanel.style.maxWidth = "320px"; 
+                widgetPanel.style.transform = "none"; 
+            }
+        }
+
+        // Keep forcing the widget to stay on the right
+        const forcePositionInterval = setInterval(() => {
+            moveAccessibilityWidget();
+        }, 1000);
+
+        // Stop enforcing after 10 seconds
+        setTimeout(() => {
+            clearInterval(forcePositionInterval);
+        }, 10000);
     </script>
-    
-    <script> window.chtlConfig = { chatbotId: "7395624657" } </script>
-    <script async data-id="7395624657" id="chatling-embed-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
-    
+
     <style>
+        /* Accessibility Widget on the Right */
+        .a11y-widget-container {
+            position: fixed !important;
+            right: 20px !important;
+            left: auto !important;
+            bottom: 60px !important;
+            max-width: 320px !important;
+            transform: none !important;
+        }
+
+        /* Widget Button on the Right */
+        #accessibility-toggle {
+            right: 20px !important;
+            left: auto !important;
+            bottom: 20px !important;
+            position: fixed !important;
+            z-index: 9999 !important;
+        }
+    </style>
+
+    <!-- Chatling Chatbot Script -->
+    <script> 
+        window.chtlConfig = { chatbotId: "7395624657" } 
+    </script>
+    <script async data-id="7395624657" id="chatling-embed-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
+
+    <style>
+        /* Chatbot on the Left */
         #chatling-embed-script {
-            position: fixed;
-            right: 20px;
-            bottom: 20px; 
-            z-index: 9999;
+            position: fixed !important;
+            left: 20px !important;
+            right: auto !important;
+            bottom: 20px !important;
+            z-index: 9999 !important;
         }
     </style>
 
@@ -198,54 +245,52 @@
 
     <section class="ftco-section" style="padding: 50px 0; background-color: #f8f9fa;">
       <div class="container" style="min-height: 100vh; display: flex; flex-direction: column; justify-content: center; max-width: 1200px;">
-        <!-- Section Heading -->
-        <div class="row text-center" style="padding-top: 50px;">
-          <div class="col-md-12">
-            <h1 class="mb-4" style="color: #343a40; font-weight: bold; font-size: 36px;">Course Details</h1>
+          <!-- Section Heading -->
+          <div class="row text-center" style="padding-top: 50px;">
+              <div class="col-md-12">
+                  <h1 class="mb-4" style="color: #343a40; font-weight: bold; font-size: 36px;">Course Details</h1>
+              </div>
           </div>
-        </div>
-
-        <!-- Two-Column Layout for Courses -->
-        <div class="row justify-content-center" style="padding-top: 50px; gap: 40px;">
-          <!-- Course 1 -->
-          <div class="col-lg-5 col-md-6 mb-4">
-            <div class="course-card" style="background: #fff; padding: 30px; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);">
-              <h2 class="mb-4" style="color: orange; font-size: 24px;">1. Certificate Course on Equitable Digital Access</h2>
-              <ul style="list-style-type: none; padding-left: 0; color: #495057; line-height: 2;">
-                <li><strong>Section 1:</strong> Models and Types of Disabilities (10 hours)</li>
-                <li><strong>Section 2:</strong> Legal System and Digital Accessibility Audit (10 hours)</li>
-                <li><strong>Section 3:</strong> Digital Accessibility and Inclusion (10 hours)</li>
-              </ul>
-              <p style="margin-top: 20px; color: #6c757d; font-size: 18px;">Total Duration: <strong>30 hours</strong></p>
-              <p style="color: #6c757d; font-size: 18px;">Eligibility: <strong>Nil</strong></p>
-              <p style="margin-top: 20px; color: orange; font-size: 16px; font-weight: bold;">Course will be available soon.</p>
-              <a href="syllabus/website_course_eda.pdf" class="btn btn-primary" target="_blank" style="padding: 12px 20px; font-size: 16px;" aria-label="Download syllabus for Certificate Course on Equitable Digital Access">
-                View/Download Syllabus
-              </a>
-            </div>
+  
+          <!-- Two-Column Layout for Courses -->
+          <div class="row justify-content-center" style="padding-top: 50px; gap: 40px;">
+              {% for course in courses %}
+              <div class="col-lg-5 col-md-6 mb-4">
+                  <div class="course-card" style="background: #fff; padding: 30px; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);">
+                      <h2 class="mb-4" style="color: orange; font-size: 24px;">{{ forloop.counter }}. {{ course.name }}</h2>
+                      
+                      {% if course.sections %}
+                      <ul style="list-style-type: none; padding-left: 0; color: #495057; line-height: 2;">
+                        {% for section in course.sections %}
+                            <li>
+                                <strong>{{ section.title }}:</strong>
+                                {% if section.description %}
+                                    {{ section.description }}
+                                {% elif section.duration %}
+                                    {{ section.duration }}
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                                     
+                      {% endif %}
+                      
+                      <p style="margin-top: 20px; color: #6c757d; font-size: 18px;">Total Duration: <strong>{{ course.duration }}</strong></p>
+                      <p style="color: #6c757d; font-size: 18px;">Eligibility: <strong>{{ course.eligibility }}</strong></p>
+                      <p style="margin-top: 20px; color: orange; font-size: 16px; font-weight: bold;">{{ course.availability_status }}</p>
+                      
+                      {% if course.syllabus %}
+                      <a href="{{ course.syllabus.url }}" class="btn btn-primary" target="_blank" style="padding: 12px 20px; font-size: 16px;" aria-label="Download syllabus for {{ course.name }}">
+                          View/Download Syllabus
+                      </a>
+                      {% endif %}
+                  </div>
+              </div>
+              {% endfor %}
           </div>
-
-          <!-- Course 2 -->
-          <div class="col-lg-5 col-md-6 mb-4">
-            <div class="course-card" style="background: #fff; padding: 30px; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);">
-              <h2 class="mb-4" style="color: orange; font-size: 24px;">2. Certificate Program in Equitable Digital Access</h2>
-              <h3 style="color: #495057; font-size: 20px; margin-bottom: 20px;">Programme Specific Outcomes (PSOs)</h3>
-              <ul style="list-style-type: none; padding-left: 0; color: #495057; line-height: 2;">
-                <li><strong>CO1:</strong> Deschool techno-ableism</li>
-                <li><strong>CO2:</strong> Advocate for inclusive digital spaces</li>
-                <li><strong>CO3:</strong> Apply accessibility laws & guidelines in designs</li>
-                <li><strong>CO4:</strong> Conduct accessibility audits (manual & automated)</li>
-              </ul>
-              <p style="margin-top: 20px; color: #6c757d; font-size: 18px;">Total Duration: <strong>30 hours</strong></p>
-              <p style="color: #6c757d; font-size: 18px;">Eligibility: <strong>Only for Marian College students</strong></p>
-              <a href="syllabus/offline_eda.pdf" class="btn btn-primary" target="_blank" style="padding: 12px 20px; font-size: 16px;" aria-label="Download syllabus for Certificate Program in Equitable Digital Access">
-                View/Download Syllabus
-              </a>
-            </div>
-          </div>
-        </div>
       </div>
-    </section>
+  </section>
+  
 
   </main>    
 

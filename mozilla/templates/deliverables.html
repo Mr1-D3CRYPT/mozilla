@@ -140,29 +140,76 @@
   <body>
 
     <script src="https://cdn.jsdelivr.net/gh/jerit-baiju/a11y-widget@latest/script.js"></script>
+
     <script>
-        const observer = new MutationObserver(() => {
-            const widget = document.querySelector("#accessibility-toggle");
-            if (widget) {
-                widget.style.position = "fixed";
-                widget.style.left = "20px";
-                widget.style.bottom = "20px"; /* Align to bottom */
-                widget.style.zIndex = "9999";
-                observer.disconnect();
+        function moveAccessibilityWidget() {
+            const widgetButton = document.querySelector("#accessibility-toggle");
+            const widgetPanel = document.querySelector(".a11y-widget-container");
+
+            if (widgetButton) {
+                widgetButton.style.position = "fixed";
+                widgetButton.style.right = "20px";
+                widgetButton.style.left = "auto"; 
+                widgetButton.style.bottom = "20px";
+                widgetButton.style.zIndex = "9999";
             }
-        });
-        observer.observe(document.body, { childList: true, subtree: true });
+
+            if (widgetPanel) {
+                widgetPanel.style.position = "fixed";
+                widgetPanel.style.right = "20px";  // Keep it on the right
+                widgetPanel.style.left = "auto";  // Remove left positioning
+                widgetPanel.style.bottom = "60px";  // Adjust height
+                widgetPanel.style.maxWidth = "320px"; 
+                widgetPanel.style.transform = "none"; 
+            }
+        }
+
+        // Keep forcing the widget to stay on the right
+        const forcePositionInterval = setInterval(() => {
+            moveAccessibilityWidget();
+        }, 1000);
+
+        // Stop enforcing after 10 seconds
+        setTimeout(() => {
+            clearInterval(forcePositionInterval);
+        }, 10000);
     </script>
-    
-    <script> window.chtlConfig = { chatbotId: "7395624657" } </script>
-    <script async data-id="7395624657" id="chatling-embed-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
-    
+
     <style>
+        /* Accessibility Widget on the Right */
+        .a11y-widget-container {
+            position: fixed !important;
+            right: 20px !important;
+            left: auto !important;
+            bottom: 60px !important;
+            max-width: 320px !important;
+            transform: none !important;
+        }
+
+        /* Widget Button on the Right */
+        #accessibility-toggle {
+            right: 20px !important;
+            left: auto !important;
+            bottom: 20px !important;
+            position: fixed !important;
+            z-index: 9999 !important;
+        }
+    </style>
+
+    <!-- Chatling Chatbot Script -->
+    <script> 
+        window.chtlConfig = { chatbotId: "7395624657" } 
+    </script>
+    <script async data-id="7395624657" id="chatling-embed-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
+
+    <style>
+        /* Chatbot on the Left */
         #chatling-embed-script {
-            position: fixed;
-            right: 20px;
-            bottom: 20px; 
-            z-index: 9999;
+            position: fixed !important;
+            left: 20px !important;
+            right: auto !important;
+            bottom: 20px !important;
+            z-index: 9999 !important;
         }
     </style>
 
@@ -216,38 +263,35 @@
 
 
   <main role="main">
-
     <section class="ftco-section" style="width: 100%; padding-left: 5%; padding-right: 5%;">
-      <div style="width: 100%; margin: 0; ">
-        <div class="col-12 d-flex align-self-stretch ftco-animate" style="flex: 1; padding: 0;">
-          <div class="media block-6 d-flex services p-3 py-4 d-block" style="width: 100%;">
-              <div class="media-body pl-4" style="width: 100%; text-align: justify;color: #040f16;">
-                <div class="ftco-animate">
-                  <h2 class="mb-4 ">Deliverables</h2>
-                  <p style="text-align: justify;">As part of this project, the following deliverables will be provided:</p>
-                  <ol style="text-align: justify;">
-                      <li>The proposed curriculum will be developed as a Certificate Program in Equitable Digital Access, which will be offered to all undergraduate students in computer applications and interested students from other disciplines also.</li>
-                      <li>Moodle Learning Management System (LMS) for offering the course in the blended mode.</li>
-                      <li>An online Certificate Program of 6 months duration with 2 credits (45 Hours) to all students in the context of the new National Education Policy (NEP), which comprises 30 hours of theoretical/classroom inputs and 15 hours of practical (Group project).</li>
-                      <li>An Augmented Reality-based handbook on Equity in Digital Accessibility, which can be used for creating awareness among participants in the area through immersive technologies.</li>
-                      <li>Video content and other materials for offering the Program through the LMS platform.</li>
-                      <li>A technology demonstration website that will provide appropriate equity in accessibility for people with disabilities.</li>
-                      <li>Participation in one international conference on Digital Accessibility.</li>
-                      <li>Workshops for students and teachers and one national conference on Equity in Digital Accessibility.</li>
-                  </ol>
-
-                  <h2 class="mb-4" style="padding-top: 50px;">Curriculum inclusion: </h2>
-                  <ul>
-                    <li>Integrate digital accessibility principles and ethics into the curriculum, making it a core component of technology related courses. </li>
-                    <li>Include real world case studies and examples representing both positive and negative impacts of computing work on accessibility and inclusion.</li>
-                  </ul>
-                </div>
-              </div>
-            </div> 
+      <div style="width: 100%; margin: 0;">
+          <div class="col-12 d-flex align-self-stretch ftco-animate" style="flex: 1; padding: 0;">
+              <div class="media block-6 d-flex services p-3 py-4 d-block" style="width: 100%;">
+                  <div class="media-body pl-4" style="width: 100%; text-align: justify; color: #040f16;">
+                      <div class="ftco-animate">
+                          <!-- Deliverables Section -->
+                          <h2 class="mb-4">{{ deliverables.title }}</h2>
+                          <p style="text-align: justify;">As part of this project, the following deliverables will be provided:</p>
+                          <ol style="text-align: justify;">
+                              {% for item in deliverables.items %}
+                                  <li>{{ item }}</li>
+                              {% endfor %}
+                          </ol>
+  
+                          <!-- Curriculum Inclusion Section -->
+                          <h2 class="mb-4" style="padding-top: 50px;">{{ curriculum_inclusion.title }}</h2>
+                          <ul>
+                              {% for item in curriculum_inclusion.items %}
+                                  <li>{{ item }}</li>
+                              {% endfor %}
+                          </ul>
+                      </div>
+                  </div>
+              </div> 
           </div>
-        </div>
-    </section>
-
+      </div>
+  </section>
+  
   </main>
 		
 

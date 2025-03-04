@@ -134,29 +134,76 @@
   <body>
 
     <script src="https://cdn.jsdelivr.net/gh/jerit-baiju/a11y-widget@latest/script.js"></script>
+
     <script>
-        const observer = new MutationObserver(() => {
-            const widget = document.querySelector("#accessibility-toggle");
-            if (widget) {
-                widget.style.position = "fixed";
-                widget.style.left = "20px";
-                widget.style.bottom = "20px"; /* Align to bottom */
-                widget.style.zIndex = "9999";
-                observer.disconnect();
+        function moveAccessibilityWidget() {
+            const widgetButton = document.querySelector("#accessibility-toggle");
+            const widgetPanel = document.querySelector(".a11y-widget-container");
+
+            if (widgetButton) {
+                widgetButton.style.position = "fixed";
+                widgetButton.style.right = "20px";
+                widgetButton.style.left = "auto"; 
+                widgetButton.style.bottom = "20px";
+                widgetButton.style.zIndex = "9999";
             }
-        });
-        observer.observe(document.body, { childList: true, subtree: true });
+
+            if (widgetPanel) {
+                widgetPanel.style.position = "fixed";
+                widgetPanel.style.right = "20px";  // Keep it on the right
+                widgetPanel.style.left = "auto";  // Remove left positioning
+                widgetPanel.style.bottom = "60px";  // Adjust height
+                widgetPanel.style.maxWidth = "320px"; 
+                widgetPanel.style.transform = "none"; 
+            }
+        }
+
+        // Keep forcing the widget to stay on the right
+        const forcePositionInterval = setInterval(() => {
+            moveAccessibilityWidget();
+        }, 1000);
+
+        // Stop enforcing after 10 seconds
+        setTimeout(() => {
+            clearInterval(forcePositionInterval);
+        }, 10000);
     </script>
-    
-    <script> window.chtlConfig = { chatbotId: "7395624657" } </script>
-    <script async data-id="7395624657" id="chatling-embed-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
-    
+
     <style>
+        /* Accessibility Widget on the Right */
+        .a11y-widget-container {
+            position: fixed !important;
+            right: 20px !important;
+            left: auto !important;
+            bottom: 60px !important;
+            max-width: 320px !important;
+            transform: none !important;
+        }
+
+        /* Widget Button on the Right */
+        #accessibility-toggle {
+            right: 20px !important;
+            left: auto !important;
+            bottom: 20px !important;
+            position: fixed !important;
+            z-index: 9999 !important;
+        }
+    </style>
+
+    <!-- Chatling Chatbot Script -->
+    <script> 
+        window.chtlConfig = { chatbotId: "7395624657" } 
+    </script>
+    <script async data-id="7395624657" id="chatling-embed-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
+
+    <style>
+        /* Chatbot on the Left */
         #chatling-embed-script {
-            position: fixed;
-            right: 20px;
-            bottom: 20px; 
-            z-index: 9999;
+            position: fixed !important;
+            left: 20px !important;
+            right: auto !important;
+            bottom: 20px !important;
+            z-index: 9999 !important;
         }
     </style>
 

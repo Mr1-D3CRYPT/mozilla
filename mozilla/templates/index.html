@@ -119,32 +119,78 @@
   <body>
 
     <script src="https://cdn.jsdelivr.net/gh/jerit-baiju/a11y-widget@latest/script.js"></script>
+
     <script>
-        const observer = new MutationObserver(() => {
-            const widget = document.querySelector("#accessibility-toggle");
-            if (widget) {
-                widget.style.position = "fixed";
-                widget.style.left = "20px";
-                widget.style.bottom = "20px"; /* Align to bottom */
-                widget.style.zIndex = "9999";
-                observer.disconnect();
+        function moveAccessibilityWidget() {
+            const widgetButton = document.querySelector("#accessibility-toggle");
+            const widgetPanel = document.querySelector(".a11y-widget-container");
+
+            if (widgetButton) {
+                widgetButton.style.position = "fixed";
+                widgetButton.style.right = "20px";
+                widgetButton.style.left = "auto"; 
+                widgetButton.style.bottom = "20px";
+                widgetButton.style.zIndex = "9999";
             }
-        });
-        observer.observe(document.body, { childList: true, subtree: true });
+
+            if (widgetPanel) {
+                widgetPanel.style.position = "fixed";
+                widgetPanel.style.right = "20px";  // Keep it on the right
+                widgetPanel.style.left = "auto";  // Remove left positioning
+                widgetPanel.style.bottom = "60px";  // Adjust height
+                widgetPanel.style.maxWidth = "320px"; 
+                widgetPanel.style.transform = "none"; 
+            }
+        }
+
+        // Keep forcing the widget to stay on the right
+        const forcePositionInterval = setInterval(() => {
+            moveAccessibilityWidget();
+        }, 1000);
+
+        // Stop enforcing after 10 seconds
+        setTimeout(() => {
+            clearInterval(forcePositionInterval);
+        }, 10000);
     </script>
-    
-    <script> window.chtlConfig = { chatbotId: "7395624657" } </script>
-    <script async data-id="7395624657" id="chatling-embed-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
-    
+
     <style>
-        #chatling-embed-script {
-            position: fixed;
-            right: 20px;
-            bottom: 20px; 
-            z-index: 9999;
+        /* Accessibility Widget on the Right */
+        .a11y-widget-container {
+            position: fixed !important;
+            right: 20px !important;
+            left: auto !important;
+            bottom: 60px !important;
+            max-width: 320px !important;
+            transform: none !important;
+        }
+
+        /* Widget Button on the Right */
+        #accessibility-toggle {
+            right: 20px !important;
+            left: auto !important;
+            bottom: 20px !important;
+            position: fixed !important;
+            z-index: 9999 !important;
         }
     </style>
-    
+
+    <!-- Chatling Chatbot Script -->
+    <script> 
+        window.chtlConfig = { chatbotId: "7395624657" } 
+    </script>
+    <script async data-id="7395624657" id="chatling-embed-script" type="text/javascript" src="https://chatling.ai/js/embed.js"></script>
+
+    <style>
+        /* Chatbot on the Left */
+        #chatling-embed-script {
+            position: fixed !important;
+            left: 20px !important;
+            right: auto !important;
+            bottom: 20px !important;
+            z-index: 9999 !important;
+        }
+    </style>
     
     
     <head role="banner">
@@ -282,99 +328,29 @@
   </section>
 
 
-    <section class="team-section py-5">
-      <div class="container">
+  <section class="team-section py-5">
+    <div class="container">
         <div class="row justify-content-center mb-4">
-          <div class="col-md-8 text-center">
-            <h2 class="section-title">Meet Our Team</h2>
-          </div>
+            <div class="col-md-8 text-center">
+                <h2 class="section-title">Meet Our Team</h2>
+            </div>
         </div>
         <div class="row">
-          <div class="col-md-3 col-6 mb-4">
-            <div class="card team-card shadow-sm">
-              <div class="card-img-top team-img" style="background-image: url('static/images/nisha-mam.avif');"></div>
-              <div class="card-body text-center">
-                <h5 class="team-name">Ms. Nisha Jose</h5>
-                <p class="team-role">Principal Investigator, RCC Mozilla Foundation, MCKA</p>
-              </div>
+            {% for member in team_members %}
+            <div class="col-md-3 col-6 mb-4">
+                <div class="card team-card shadow-sm">
+                    <div class="card-img-top team-img" style="background-image: url('{{ member.image.url }}');"></div>
+                    <div class="card-body text-center">
+                        <h5 class="team-name">{{ member.name }}</h5>
+                        <p class="team-role">{{ member.role }}</p>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="col-md-3 col-6 mb-4">
-            <div class="card team-card shadow-sm">
-              <div class="card-img-top team-img" style="background-image: url('static/images/binusir.avif');"></div>
-              <div class="card-body text-center">
-                <h5 class="team-name">Dr. Binu Thomas</h5>
-                <p class="team-role">Co Investigator, RCC Mozilla Foundation, MCKA</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3 col-6 mb-4">
-            <div class="card team-card shadow-sm">
-              <div class="card-img-top team-img" style="background-image: url('static/images/ajeshsir.avif');"></div>
-              <div class="card-body text-center">
-                <h5 class="team-name">Mr. Ajesh P Joseph</h5>
-                <p class="team-role">Co Investigator, RCC Mozilla Foundation, MCKA</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3 col-6 mb-4">
-            <div class="card team-card shadow-sm">
-              <div class="card-img-top team-img" style="background-image: url('static/images/MrCherian.avif');"></div>
-              <div class="card-body text-center">
-                <h5 class="team-name">Dr.Cherian P Kurian</h5>
-                <p class="team-role">OBE consultant, RCC Mozilla Foundation, MCKA</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3 col-6 mb-4">
-            <div class="card team-card shadow-sm">
-              <div class="card-img-top team-img" style="background-image: url('static/images/nilesh_sir.jpg  ');"></div>
-              <div class="card-body text-center">
-                <h5 class="team-name">Mr. Nilesh Singit</h5>
-                <p class="team-role">Disability Consultant, RCC Mozilla Foundation, MCKA</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3 col-6 mb-4">
-            <div class="card team-card shadow-sm">
-              <div class="card-img-top team-img" style="background-image: url('static/images/abhirami.avif');"></div>
-              <div class="card-body text-center">
-                <h5 class="team-name">Ms. Abhirami Sunil</h5>
-                <p class="team-role">Project Manager, RCC Mozilla Foundation, MCKA</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3 col-6 mb-4">
-            <div class="card team-card shadow-sm">
-              <div class="card-img-top team-img" style="background-image: url('static/images/ashish.jpg');"></div>
-              <div class="card-body text-center">
-                <h5 class="team-name">Mr. Ashish Thomas</h5>
-                <p class="team-role">Developer & Intern</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3 col-6 mb-4">
-            <div class="card team-card shadow-sm">
-              <div class="card-img-top team-img" style="background-image: url('static/images/clara.avif');"></div>
-              <div class="card-body text-center">
-                <h5 class="team-name">Ms. Clara Jose</h5>
-                <p class="team-role">Developer & Intern</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3 col-6 mb-4">
-            <div class="card team-card shadow-sm">
-              <div class="card-img-top team-img" style="background-image: url('static/images/ebin.avif');"></div>
-              <div class="card-body text-center">
-                <h5 class="team-name">Mr. Ebin E Gilbert</h5>
-                <p class="team-role">Developer & Intern</p>
-              </div>
-            </div>
-          </div>
-        </a>
+            {% endfor %}
         </div>
-      </div>
-    </section>
+    </div>
+</section>
+
 
   </main>
 
