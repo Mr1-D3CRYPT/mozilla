@@ -10,4 +10,6 @@ urlpatterns = [
     path("event", views.event, name="event"),
     path("event-single", views.event_single, name="event_single"),
     path("projects", views.projects, name="projects"),
+    path("registration", views.registration, name="registration"),
+    path('place-order', views.place_order, name='place-order'),
 ]
