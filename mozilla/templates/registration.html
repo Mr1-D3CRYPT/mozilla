@@ -157,20 +157,23 @@
 </div>
 
 <script>
-$(document).ready(function(){
-
-    // Update total price when checkboxes are selected/deselected
-    $(".event-checkbox").change(function() {
+$(document).ready(function () {
+    // Function to calculate total price
+    function calculateTotalPrice() {
         var total = 0;
-        $(".event-checkbox:checked").each(function() {
+        $(".event-checkbox:checked").each(function () {
             total += parseInt($(this).val());
         });
         $("#totalPrice").text(total);
-        console.log("Updated Total Price:", total); 
+        console.log("Updated Total Price:", total);
+    }
+
+    $(".event-checkbox").change(function () {
+        calculateTotalPrice();
     });
 
-    // Validate Email
-    $("#email").on("input", function() {
+    // Email Validation
+    $("#email").on("input", function () {
         var email = $(this).val();
         var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailPattern.test(email)) {
@@ -181,7 +184,7 @@ $(document).ready(function(){
     });
 
     // Move to next field on Enter key press
-    $(".input-field").on("keydown", function(e) {
+    $(".input-field").on("keydown", function (e) {
         if (e.key === "Enter") {
             e.preventDefault();
             var inputs = $(".input-field");
@@ -192,82 +195,86 @@ $(document).ready(function(){
         }
     });
 
-    $(".payWithRazorpay").click(function(e){
-    e.preventDefault();
-
-    var name = $("#name").val();
-    var email = $("#email").val();
-    var phone = $("#phone").val();
-    var countryCode = $("#countryCode").val();
-    var institution = $("#institution").val();
-    var totalAmount = parseInt($("#totalPrice").text());
-    var selectedEvents = [];
-
-    $(".event-checkbox:checked").each(function() {
-        selectedEvents.push($(this).next("label").text());
-    });
-
-    if(name == "" || email == "" || phone == "" || institution == "" || totalAmount == 0) {
-        alert("Please fill all fields and select at least one event.");
-        return false;
+    // Get CSRF Token
+    function getCSRFToken() {
+        return $("input[name='csrfmiddlewaretoken']").val();
     }
 
-    var csrfToken = getCSRFToken();  // Get CSRF token
+    $(".payWithRazorpay").click(function (e) {
+        e.preventDefault();
 
-    var options = {
-        "key": "rzp_test_QRmcib8MvyRkyB",
-        "amount": totalAmount * 100,  
-        "currency": "INR",
-        "name": "NCEDA 2025",
-        "description": "Event Registration Payment",
-        "handler": function (response){
-            alert("Payment Successful! Redirecting to the event page...");
+        var name = $("#name").val().trim();
+        var email = $("#email").val().trim();
+        var phone = $("#phone").val().trim();
+        var countryCode = $("#countryCode").val().trim();
+        var institution = $("#institution").val().trim();
+        var totalAmount = parseInt($("#totalPrice").text());
+        var selectedEvents = [];
 
-            // Send payment details to backend
-            $.ajax({
-                method: "POST",
-                url: "/place-order",
-                contentType: "application/json",
-                headers: { "X-CSRFToken": csrfToken },  // Include CSRF token
-                data: JSON.stringify({
-                    "name": name,
-                    "email": email,
-                    "phone": phone,
-                    "country_code": countryCode,
-                    "institution": institution,
-                    "selected_events": selectedEvents,
-                    "total_amount": totalAmount,
-                    "payment_id": response.razorpay_payment_id
-                }),
-                success: function (responsec) {
-                    console.log("✅ Server Response:", responsec);
-                    if (responsec.status === "success") {
-                        window.location.href = "/event-single/";
-                    } else {
-                        alert("❌ Error: " + responsec.message);
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.log("❌ AJAX Error:", xhr.responseText);
-                    alert("Something went wrong! Please try again.");
-                }
-            });
-        },
-        "prefill": { 
-            "name": name,
-            "email": email, 
-            "contact": phone
-        },
-        "theme": {
-            "color": "#ff5e00"
+        $(".event-checkbox:checked").each(function () {
+            selectedEvents.push($(this).next("label").text());
+        });
+
+        if (!name || !email || !phone || !institution || totalAmount === 0 || selectedEvents.length === 0) {
+            alert("Please fill all fields and select at least one event.");
+            return false;
         }
-    };
 
-    var rzp1 = new Razorpay(options);
-    rzp1.open();
+        var csrfToken = getCSRFToken();
+
+        var options = {
+            "key": "rzp_test_QRmcib8MvyRkyB",
+            "amount": totalAmount * 100,
+            "currency": "INR",
+            "name": "NCEDA 2025",
+            "description": "Event Registration Payment",
+            "handler": function (response) {
+                alert("Payment Successful! Redirecting to the event page...");
+
+                $.ajax({
+                    method: "POST",
+                    url: "/place-order",
+                    contentType: "application/json",
+                    headers: { "X-CSRFToken": csrfToken },
+                    data: JSON.stringify({
+                        "name": name,
+                        "email": email,
+                        "phone": phone,
+                        "country_code": countryCode,
+                        "institution": institution,
+                        "selected_events": selectedEvents,
+                        "total_amount": totalAmount,
+                        "payment_id": response.razorpay_payment_id
+                    }),
+                    success: function (responsec) {
+                        console.log("✅ Server Response:", responsec);
+                        if (responsec.status === "success") {
+                            window.location.href = "/event-single";
+                        } else {
+                            alert("❌ Error: " + responsec.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("❌ AJAX Error:", xhr.responseText);
+                        alert("Something went wrong! Please try again.");
+                    }
+                });
+            },
+            "prefill": {
+                "name": name,
+                "email": email,
+                "contact": phone
+            },
+            "theme": {
+                "color": "#ff5e00"
+            }
+        };
+
+        var rzp1 = new Razorpay(options);
+        rzp1.open();
+    });
 });
 
-});
 </script>
 
 </body>

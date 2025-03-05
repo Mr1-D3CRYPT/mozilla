@@ -36,24 +36,38 @@ def event_single(request):
 def registration(request):
     return render(request, 'registration.html')
 
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from .models import Registration
+
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from .models import Registration
+
+@csrf_exempt
 def place_order(request):
     if request.method == "POST":
         try:
+            # Read JSON data from request body
             data = json.loads(request.body)
-            print("Received Data:", data)  # Debugging
 
-            # Extract data
             name = data.get("name")
             email = data.get("email")
             phone = data.get("phone")
-            country_code = data.get("country_code")
+            country_code = data.get("country_code", "+91")
             institution = data.get("institution")
-            selected_events = ", ".join(data.get("selected_events", []))  
+            selected_events = ", ".join(data.get("selected_events", []))
             total_amount = data.get("total_amount")
             payment_id = data.get("payment_id")
 
-            # Save to database
-            new_registration = Registration.objects.create(
+            # Ensure all required fields are received
+            if not all([name, email, phone, institution, selected_events, total_amount, payment_id]):
+                return JsonResponse({"status": "error", "message": "Missing required fields"}, status=400)
+
+            # Store in the database
+            registration = Registration.objects.create(
                 name=name,
                 email=email,
                 phone=phone,
@@ -62,22 +76,16 @@ def place_order(request):
                 selected_events=selected_events,
                 total_amount=total_amount,
                 payment_id=payment_id,
-                payment_status="Success"
+                payment_status="Paid"
             )
 
-            print("✅ Registration saved successfully!")
+            return JsonResponse({"status": "success", "message": "Order placed successfully!"})
 
-            return JsonResponse({
-                "status": "success",
-                "message": "Registration Successful!",
-                "redirect_url": "/event-single/"  # Redirect directly to event page
-            })
+        except json.JSONDecodeError:
+            return JsonResponse({"status": "error", "message": "Invalid JSON format"}, status=400)
 
-        except Exception as e:
-            print("❌ Error:", e)  # Debugging
-            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+    return JsonResponse({"status": "error", "message": "Invalid request method"}, status=405)
 
-    return JsonResponse({"status": "error", "message": "Invalid request"}, status=400)
 
 
 
