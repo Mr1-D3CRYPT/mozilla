@@ -2,6 +2,8 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from .models import CurriculumInclusion, Deliverable, Event, Project, Course, TeamMember, Registration
 import json
+from django.core.mail import send_mail
+from django.views.decorators.csrf import csrf_exempt
 
 def index(request):
     team_members = TeamMember.objects.all()
@@ -36,16 +38,6 @@ def event_single(request):
 def registration(request):
     return render(request, 'registration.html')
 
-import json
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from .models import Registration
-
-import json
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from .models import Registration
-
 @csrf_exempt
 def place_order(request):
     if request.method == "POST":
@@ -79,15 +71,43 @@ def place_order(request):
                 payment_status="Paid"
             )
 
-            return JsonResponse({"status": "success", "message": "Order placed successfully!"})
+            # Construct the email message
+            subject = "NCEDA 2025 - Registration Confirmation"
+            message = f"""
+            Dear {name},
+
+            Thank you for registering for NCEDA 2025. Your payment has been successfully processed.
+
+            Details:
+            - Name: {name}
+            - Email: {email}
+            - Phone: {country_code} {phone}
+            - Institution: {institution}
+            - Selected Events: {selected_events}
+            - Total Amount Paid: ₹{total_amount}
+            - Payment ID: {payment_id}
+
+            We look forward to seeing you at the event!
+
+            Best Regards,  
+            NCEDA 2025 Team
+            """
+            from_email = "ashish.23pmc111@mariancollege.org"
+            recipient_list = [email]
+
+            # Send confirmation email
+            send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+
+            # Return JSON response with redirect URL
+            return JsonResponse({
+                "status": "success",
+                "message": "Order placed and confirmation email sent!",
+            })
 
         except json.JSONDecodeError:
             return JsonResponse({"status": "error", "message": "Invalid JSON format"}, status=400)
 
     return JsonResponse({"status": "error", "message": "Invalid request method"}, status=405)
-
-
-
 
 def projects(request):
     projects = Project.objects.all()
