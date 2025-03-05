@@ -3,10 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NCEDA 2025 - Registration with Payment</title>
+    <title>NCEDA 2025 - Registration</title>
+
+    <meta name="description" content="National Conference on Equitable Digital Access,Equitable Digital Access initiative by Marian College Kuttikanam Autonomous in partnership with Mozilla RCC focuses on digital accessibility and inclusiveness for persons with disabilities.">
+    <meta name="author" content="Marian College Kuttikanam Autonomous">
+    <meta name="keywords" content="Equitable Digital Access, NCEDA, National Conference on Equitable Digital Access, Events, NCEDA, Registration for conference, Digital Accessibility, Mozilla RCC Events, Marian College, Accessibility Curriculum, Inclusiveness, Ethics in Computing">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph Meta Tags (for better social media sharing) -->
+    <meta property="og:title" content="NCEDA">
+    <meta property="og:description" content="National Conference on Equitable Digital Access">
+    <meta property="og:image" content="static/images/marian-college.png">
+    <meta property="og:url" content="https://marianrcc.org">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="icon" type="image/x-icon" href="static/images/marian-college.png">
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -15,25 +28,97 @@
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
     <style>
+        :root {
+            --primary-color: #ff5e00;
+            --secondary-color: #f8f9fa;
+            --text-color: #333;
+        }
+
         body {
-            background-color: #f8f9fa;
+            background-color: var(--secondary-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
         }
+
         .registration-container {
-            max-width: 700px;
+            max-width: 750px;
             background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            margin: 40px auto;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            margin: 50px auto;
+            border-top: 6px solid var(--primary-color);
         }
+
+        .registration-container h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-control {
+            border-color: #ddd;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(255, 94, 0, 0.25);
+        }
+
         .btn-orange {
-            background-color: rgb(255, 94, 0);
+            background-color: var(--primary-color);
             color: white;
             font-weight: bold;
             border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
         }
+
         .btn-orange:hover {
-            background-color: rgb(230, 85, 0);
+            background-color: #e65a00;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .form-check-label {
+            color: #666;
+        }
+
+        .text-danger {
+            font-size: 0.85em;
+        }
+
+        #totalPrice {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        @media (max-width: 576px) {
+            .registration-container {
+                padding: 20px;
+                margin: 20px auto;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            .input-group > * {
+                margin-bottom: 10px;
+            }
         }
     </style>
 </head>
@@ -41,110 +126,70 @@
 
 <div class="container">
     <div class="registration-container">
-        <h2 class="text-center" style="color: rgb(255, 94, 0);">NCEDA 2025 - Registration</h2>
-        <p class="text-center text-muted">March 30-31, 2025 | Marian College Kuttikkanam Autonomous</p>
+        <h2 class="text-center">NCEDA 2025 - Registration</h2>
+        <p class="text-center text-muted mb-4">March 30-31, 2025 | Marian College Kuttikkanam Autonomous</p>
 
         <form id="registrationForm">
-
-          {% csrf_token %}
+            {% csrf_token %}
             
             <!-- Name -->
             <div class="mb-3">
-                <label class="form-label"><strong>Full Name</strong></label>
-                <input type="text" class="form-control input-field" id="name" required>
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-control input-field" id="name" required placeholder="Enter your full name">
             </div>
 
             <!-- Email -->
             <div class="mb-3">
-                <label class="form-label"><strong>Email Address</strong></label>
-                <input type="email" class="form-control input-field" id="email" required>
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-control input-field" id="email" required placeholder="you@example.com">
                 <small class="text-danger" id="emailError" style="display: none;">Invalid email format</small>
             </div>
 
             <!-- Country Code & Phone Number Input -->
             <div class="mb-3">
-              <label class="form-label"><strong>Phone Number</strong></label>
+              <label class="form-label">Phone Number</label>
               <div class="input-group">
-                  <!-- Smaller Country Code Input -->
-                  <input type="text" class="form-control input-field" id="countryCode" placeholder="+91" maxlength="5" style="max-width: 80px; text-align: center;" required>
-                  <!-- Larger Phone Number Input -->
+                  <input type="text" class="form-control input-field" id="countryCode" placeholder="+91" maxlength="5" style="max-width: 100px; text-align: center;" required>
                   <input type="tel" class="form-control input-field" id="phone" placeholder="Enter phone number" required>
               </div>
               <small class="text-danger" id="phoneError" style="display: none;">Invalid phone number</small>
             </div>
 
-            <script>
-            $(document).ready(function(){
-              
-              // Country Code Input Validation - Only Numbers and "+"
-              $("#countryCode").on("input", function() {
-                  var countryCode = $(this).val();
-                  countryCode = countryCode.replace(/[^0-9+]/g, ''); // Allow only numbers and "+"
-                  $(this).val(countryCode);
-              });
-
-              // Phone Number Validation Based on Country Code
-              $("#phone").on("input", function() {
-                  var phone = $(this).val().replace(/\D/g, ''); // Remove non-numeric characters
-                  var countryCode = $("#countryCode").val();
-
-                  // Define phone number length based on country code
-                  var phoneLength = {
-                      "+91": 10, // India
-                      "+1": 10,  // USA
-                      "+44": 10, // UK
-                      "+61": 9,  // Australia
-                      "+971": 9, // UAE
-                      "+65": 8,  // Singapore
-                      "+49": 11, // Germany
-                      "+33": 9   // France
-                  };
-
-                  // If the entered country code is not in the list, assume a 10-digit phone number
-                  var expectedLength = phoneLength[countryCode] || 10;
-
-                  if (phone.length !== expectedLength) {
-                      $("#phoneError").show();
-                  } else {
-                      $("#phoneError").hide();
-                  }
-
-                  $(this).val(phone); // Keep only numbers
-              });
-
-            });
-            </script>
-
-
             <!-- Institution -->
             <div class="mb-3">
-                <label class="form-label"><strong>Institution / Organization</strong></label>
-                <input type="text" class="form-control input-field" id="institution" required>
+                <label class="form-label">Institution / Organization</label>
+                <input type="text" class="form-control input-field" id="institution" required placeholder="Enter your institution name">
             </div>
 
             <!-- Events Selection -->
             <div class="mb-3">
-                <label class="form-label"><strong>Select Events</strong></label>
-                <div class="form-check">
-                    <input class="form-check-input event-checkbox" type="checkbox" id="ideathon" value="500">
-                    <label class="form-check-label" for="ideathon">Ideathon (₹500) - 31<sup>st</sup></label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input event-checkbox" type="checkbox" id="paperPresentation" value="100">
-                    <label class="form-check-label" for="paperPresentation">Paper Presentation (₹100) - 30<sup>th</sup></label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input event-checkbox" type="checkbox" id="symposia" value="500">
-                    <label class="form-check-label" for="symposia">Symposia (₹500) - both days</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input event-checkbox" type="checkbox" id="workshop" value="250">
-                    <label class="form-check-label" for="workshop">Workshop (₹250) - 31<sup>st</sup></label>
+                <label class="form-label">Select Events</label>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-check mb-2">
+                            <input class="form-check-input event-checkbox" type="checkbox" id="ideathon" value="500">
+                            <label class="form-check-label" for="ideathon">Ideathon (₹500) - 31<sup>st</sup></label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input event-checkbox" type="checkbox" id="paperPresentation" value="100">
+                            <label class="form-check-label" for="paperPresentation">Paper Presentation (₹100) - 30<sup>th</sup></label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-check mb-2">
+                            <input class="form-check-input event-checkbox" type="checkbox" id="symposia" value="500">
+                            <label class="form-check-label" for="symposia">Symposia (₹500) - both days</label>
+                        </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input event-checkbox" type="checkbox" id="workshop" value="250">
+                            <label class="form-check-label" for="workshop">Workshop (₹250) - 31<sup>st</sup></label>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!-- Display Total Price -->
-            <div class="mb-3">
+            <div class="mb-4 text-center">
                 <h5>Total Price: ₹<span id="totalPrice">0</span></h5>
             </div>
 
@@ -157,123 +202,123 @@
 </div>
 
 <script>
-$(document).ready(function () {
-    // Function to calculate total price
-    function calculateTotalPrice() {
-        var total = 0;
-        $(".event-checkbox:checked").each(function () {
-            total += parseInt($(this).val());
-        });
-        $("#totalPrice").text(total);
-        console.log("Updated Total Price:", total);
-    }
-
-    $(".event-checkbox").change(function () {
-        calculateTotalPrice();
-    });
-
-    // Email Validation
-    $("#email").on("input", function () {
-        var email = $(this).val();
-        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailPattern.test(email)) {
-            $("#emailError").show();
-        } else {
-            $("#emailError").hide();
+    $(document).ready(function () {
+        // Function to calculate total price
+        function calculateTotalPrice() {
+            var total = 0;
+            $(".event-checkbox:checked").each(function () {
+                total += parseInt($(this).val());
+            });
+            $("#totalPrice").text(total);
+            console.log("Updated Total Price:", total);
         }
-    });
 
-    // Move to next field on Enter key press
-    $(".input-field").on("keydown", function (e) {
-        if (e.key === "Enter") {
+        $(".event-checkbox").change(function () {
+            calculateTotalPrice();
+        });
+
+        // Email Validation
+        $("#email").on("input", function () {
+            var email = $(this).val();
+            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                $("#emailError").show();
+            } else {
+                $("#emailError").hide();
+            }
+        });
+
+        // Move to next field on Enter key press
+        $(".input-field").on("keydown", function (e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                var inputs = $(".input-field");
+                var index = inputs.index(this);
+                if (index < inputs.length - 1) {
+                    inputs.eq(index + 1).focus();
+                }
+            }
+        });
+
+        // Get CSRF Token
+        function getCSRFToken() {
+            return $("input[name='csrfmiddlewaretoken']").val();
+        }
+
+        $(".payWithRazorpay").click(function (e) {
             e.preventDefault();
-            var inputs = $(".input-field");
-            var index = inputs.index(this);
-            if (index < inputs.length - 1) {
-                inputs.eq(index + 1).focus();
+
+            var name = $("#name").val().trim();
+            var email = $("#email").val().trim();
+            var phone = $("#phone").val().trim();
+            var countryCode = $("#countryCode").val().trim();
+            var institution = $("#institution").val().trim();
+            var totalAmount = parseInt($("#totalPrice").text());
+            var selectedEvents = [];
+
+            $(".event-checkbox:checked").each(function () {
+                selectedEvents.push($(this).next("label").text());
+            });
+
+            if (!name || !email || !phone || !institution || totalAmount === 0 || selectedEvents.length === 0) {
+                alert("Please fill all fields and select at least one event.");
+                return false;
             }
-        }
-    });
 
-    // Get CSRF Token
-    function getCSRFToken() {
-        return $("input[name='csrfmiddlewaretoken']").val();
-    }
+            var csrfToken = getCSRFToken();
 
-    $(".payWithRazorpay").click(function (e) {
-        e.preventDefault();
+            var options = {
+                "key": "rzp_test_QRmcib8MvyRkyB",
+                "amount": totalAmount * 100,
+                "currency": "INR",
+                "name": "NCEDA 2025",
+                "description": "Event Registration Payment",
+                "handler": function (response) {
+                    alert("Payment Successful! Redirecting to the event page...");
 
-        var name = $("#name").val().trim();
-        var email = $("#email").val().trim();
-        var phone = $("#phone").val().trim();
-        var countryCode = $("#countryCode").val().trim();
-        var institution = $("#institution").val().trim();
-        var totalAmount = parseInt($("#totalPrice").text());
-        var selectedEvents = [];
-
-        $(".event-checkbox:checked").each(function () {
-            selectedEvents.push($(this).next("label").text());
-        });
-
-        if (!name || !email || !phone || !institution || totalAmount === 0 || selectedEvents.length === 0) {
-            alert("Please fill all fields and select at least one event.");
-            return false;
-        }
-
-        var csrfToken = getCSRFToken();
-
-        var options = {
-            "key": "rzp_test_QRmcib8MvyRkyB",
-            "amount": totalAmount * 100,
-            "currency": "INR",
-            "name": "NCEDA 2025",
-            "description": "Event Registration Payment",
-            "handler": function (response) {
-                alert("Payment Successful! Redirecting to the event page...");
-
-                $.ajax({
-                    method: "POST",
-                    url: "/place-order",
-                    contentType: "application/json",
-                    headers: { "X-CSRFToken": csrfToken },
-                    data: JSON.stringify({
-                        "name": name,
-                        "email": email,
-                        "phone": phone,
-                        "country_code": countryCode,
-                        "institution": institution,
-                        "selected_events": selectedEvents,
-                        "total_amount": totalAmount,
-                        "payment_id": response.razorpay_payment_id
-                    }),
-                    success: function (responsec) {
-                        console.log("✅ Server Response:", responsec);
-                        if (responsec.status === "success") {
-                            window.location.href = "/event-single";
-                        } else {
-                            alert("❌ Error: " + responsec.message);
+                    $.ajax({
+                        method: "POST",
+                        url: "/place-order",
+                        contentType: "application/json",
+                        headers: { "X-CSRFToken": csrfToken },
+                        data: JSON.stringify({
+                            "name": name,
+                            "email": email,
+                            "phone": phone,
+                            "country_code": countryCode,
+                            "institution": institution,
+                            "selected_events": selectedEvents,
+                            "total_amount": totalAmount,
+                            "payment_id": response.razorpay_payment_id
+                        }),
+                        success: function (responsec) {
+                            console.log("✅ Server Response:", responsec);
+                            if (responsec.status === "success") {
+                                window.location.href = "/event-single";
+                            } else {
+                                alert("❌ Error: " + responsec.message);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.log("❌ AJAX Error:", xhr.responseText);
+                            alert("Something went wrong! Please try again.");
                         }
-                    },
-                    error: function (xhr, status, error) {
-                        console.log("❌ AJAX Error:", xhr.responseText);
-                        alert("Something went wrong! Please try again.");
-                    }
-                });
-            },
-            "prefill": {
-                "name": name,
-                "email": email,
-                "contact": phone
-            },
-            "theme": {
-                "color": "#ff5e00"
-            }
-        };
+                    });
+                },
+                "prefill": {
+                    "name": name,
+                    "email": email,
+                    "contact": phone
+                },
+                "theme": {
+                    "color": "#ff5e00"
+                }
+            };
 
-        var rzp1 = new Razorpay(options);
-        rzp1.open();
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
+        });
     });
-});
 
 </script>
 
