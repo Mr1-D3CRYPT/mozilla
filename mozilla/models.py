@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+User._meta.get_field('email')._unique = True 
 
 class Event(models.Model):
     name = models.CharField(max_length=255)
@@ -10,9 +12,10 @@ class Event(models.Model):
     def __str__(self):
         return self.name
 
+
 class Registration(models.Model):
+    email = models.ForeignKey(User, on_delete=models.CASCADE, to_field='email', related_name="registrations")
     name = models.CharField(max_length=255)
-    email = models.EmailField()
     phone = models.CharField(max_length=20)
     country_code = models.CharField(max_length=5, default="+91")
     institution = models.CharField(max_length=255)

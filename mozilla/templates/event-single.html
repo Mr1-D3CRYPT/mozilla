@@ -278,11 +278,20 @@
               </a>
             </div>
 
+            {% if request.user.is_authenticated %}
             <div class="mb-4">
-              <a href="registration" class="btn btn-success register-btn">
-                📝 Register Now
-              </a>
+                <a href="registration" class="btn btn-success register-btn">
+                    📝 Register Now
+                </a>
             </div>
+            {% else %}
+            <div class="mb-4">
+                <a href="create_account" class="btn btn-success register-btn">
+                    📝 Create Account/Login to Register Now
+                </a>
+            </div>
+            {% endif %}
+        
           </div>
         </div>
       

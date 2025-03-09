@@ -12,4 +12,6 @@ urlpatterns = [
     path("projects", views.projects, name="projects"),
     path("registration", views.registration, name="registration"),
     path('place-order', views.place_order, name='place-order'),
+    path('create_account', views.create_account, name='create_account'),
+    path("account", views.account, name="account"),
 ]

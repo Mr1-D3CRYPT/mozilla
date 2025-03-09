@@ -1,9 +1,11 @@
 from django.http import JsonResponse
-from django.shortcuts import render
 from .models import CurriculumInclusion, Deliverable, Event, Project, Course, TeamMember, Registration
 import json
 from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.models import User
+from django.contrib.auth import login
+from django.shortcuts import render, redirect
 
 def index(request):
     team_members = TeamMember.objects.all()
@@ -37,6 +39,36 @@ def event_single(request):
 
 def registration(request):
     return render(request, 'registration.html')
+
+def account(request):
+    return render(request, 'account.html')
+
+def create_account(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+
+        # Validate required fields
+        if not name or not email or not password:
+            return render(request, "account_creation.html", {"error": "All fields are required."})
+
+        # Check if the email already exists
+        if User.objects.filter(email=email).exists():
+            return render(request, "account_creation.html", {"error": "Email already exists."})
+
+        # Create the user
+        user = User.objects.create_user(username=name, email=email, password=password)
+
+        # Log the user in immediately after account creation
+        login(request, user)
+
+        # Redirect to the registration page after successful sign-up
+        return redirect("registration")  # Change to your actual registration URL name
+
+    return render(request, "account_creation.html")
+
+
 
 @csrf_exempt
 def place_order(request):
