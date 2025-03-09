@@ -326,47 +326,53 @@
       </nav>
     </header>
 
-    <div class="container mt-5">
-        <h2 class="text-center">Account Details</h2>
-        <hr>
-
+    <div class="container mt-5" style="padding-top: 7%;">
+        <h2 class="text-center mb-4">Account Details</h2>
+        <hr class="mb-4">
+    
         {% if registration %}
             <!-- Show Registration Details -->
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">{{ registration.name }}</h5>
-                    <p class="card-text"><strong>Email:</strong> {{ registration.email }}</p>
-                    <p class="card-text"><strong>Phone:</strong> {{ registration.phone }}</p>
-                    <p class="card-text"><strong>Country Code:</strong> {{ registration.country_code }}</p>
-                    <p class="card-text"><strong>Institution:</strong> {{ registration.institution }}</p>
-                    <p class="card-text"><strong>Selected Events:</strong> {{ registration.selected_events }}</p>
-                    <p class="card-text"><strong>Total Amount:</strong> ${{ registration.total_amount }}</p>
-                    <p class="card-text"><strong>Payment ID:</strong> {{ registration.payment_id }}</p>
-                    <p class="card-text"><strong>Payment Status:</strong> 
-                        {% if registration.payment_status == "Completed" %}
-                            <span class="badge bg-success">Completed</span>
-                        {% else %}
-                            <span class="badge bg-warning">Pending</span>
-                        {% endif %}
-                    </p>
-                    <p class="card-text"><small class="text-muted">Registered on {{ registration.created_at }}</small></p>
+            <div class="card shadow-sm rounded">
+                <div class="card-body p-4">
+                    <h5 class="card-title fw-bold mb-4">{{ registration.name }}</h5>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <p class="card-text"><strong>Email:</strong> {{ registration.email }}</p>
+                            <p class="card-text"><strong>Phone:</strong> {{ registration.phone }}</p>
+                            <p class="card-text"><strong>Country Code:</strong> {{ registration.country_code }}</p>
+                            <p class="card-text"><strong>Institution:</strong> {{ registration.institution }}</p>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <p class="card-text"><strong>Selected Events:</strong> {{ registration.selected_events }}</p>
+                            <p class="card-text"><strong>Total Amount:</strong> ${{ registration.total_amount }}</p>
+                            <p class="card-text"><strong>Payment ID:</strong> {{ registration.payment_id }}</p>
+                            <p class="card-text"><strong>Payment Status:</strong> 
+                                {% if registration.payment_status == "Completed" %}
+                                    <span class="badge bg-success px-3 py-2">Completed</span>
+                                {% else %}
+                                    <span class="badge bg-warning px-3 py-2">Pending</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    <p class="card-text mt-3"><small class="text-muted fst-italic">Registered on {{ registration.created_at }}</small></p>
                 </div>
             </div>
         {% else %}
             <!-- Show Basic User Info If No Registration Found -->
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-text"><strong>Username:</strong> {{ user.username }}</h5>
-                    <div class="alert alert-warning text-center mt-3">
-                        <p>No registration details found.</p>
-                        <a href="registration" class="btn btn-primary">Register Now</a>
+            <div class="card shadow-sm rounded">
+                <div class="card-body p-4">
+                    <h5 class="card-text mb-3"><strong>Username:</strong> {{ user.username }}</h5>
+                    <div class="alert alert-warning text-center mt-4 p-4">
+                        <p class="mb-3">No registration details found.</p>
+                        <a href="registration" class="btn btn-primary px-4 py-2">Register Now</a>
                     </div>
                 </div>
             </div>
         {% endif %}
-
-        <div class="text-center mt-4">
-            <a href="logout_view" class="btn btn-danger">Logout</a>
+    
+        <div class="text-center mt-5 mb-4">
+            <a href="logout_view" class="btn btn-danger px-4 py-2">Logout</a>
         </div>
     </div>
 

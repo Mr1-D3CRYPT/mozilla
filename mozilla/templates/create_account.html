@@ -1,194 +1,511 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register & Login</title>
+    <title>Mozilla RCC at Marian - Login/Register</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="description" content="Login and registration page for the National Conference on Equitable Digital Access at Marian College Kuttikanam Autonomous">
+    <meta name="author" content="Marian College Kuttikanam Autonomous">
+    
+    <link rel="icon" type="image/x-icon" href="static/images/marian-college.png">
+    
+    <link href="https://fonts.googleapis.com/css?family=Dosis:200,300,400,500,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Overpass:300,400,400i,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="static/css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/animate.css">
+    <link rel="stylesheet" href="static/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="static/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="static/css/magnific-popup.css">
+    <link rel="stylesheet" href="static/css/aos.css">
+    <link rel="stylesheet" href="static/css/ionicons.min.css">
+    <link rel="stylesheet" href="static/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="static/css/jquery.timepicker.css">
+    <link rel="stylesheet" href="static/css/flaticon.css">
+    <link rel="stylesheet" href="static/css/icomoon.css">
+    <link rel="stylesheet" href="static/css/style.css">
+
     <style>
-        /* General Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
+        /* Navbar Styles */
+        .btn1 {
+            width: 70px;
+            height: 40px;
+            border: none;
+            transition: all 0.5s ease-in-out;
+            font-size: 10px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            background: #040f16;
+            color: #f5f5f5;
         }
 
-        /* Centering the form with top padding */
-        .container {
-            width: 100%;
-            max-width: 400px;
-            margin: 15% auto; /* Top padding of 15% */
-            background: white;
+        .btn1:hover {
+            box-shadow: 0 0 20px 0px #2e2e2e3a;
+        }
+
+        .btn1 .icon {
+            position: absolute;
+            height: 40px;
+            width: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.5s;
+        }
+
+        .btn1:hover .icon {
+            width: 70px;
+        }
+
+        .btn1:hover .text {
+            transition: all 0.5s;
+            opacity: 0;
+        }
+
+        .btn1:focus, 
+        .navbar-toggler:focus {
+            outline: 2px solid #007bff;
+            outline-offset: 2px;
+            border-radius: 4px; 
+            transition: none;
+        }
+
+        .btn1:active .icon {
+            transform: scale(0.85);
+        }
+
+        /* Form Styles */
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f8f9fa;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 80px; /* Space for fixed navbar */
+            margin-bottom: 30px;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 450px;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .auth-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 12px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-title {
             text-align: center;
+            margin-bottom: 25px;
+            color: rgb(255, 94, 0);
+            font-weight: bold;
         }
 
-        /* Title */
-        h2 {
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        /* Toggle Buttons */
         .form-toggle {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
 
         .form-toggle button {
             width: 48%;
-            padding: 10px;
+            padding: 12px;
             border: none;
             background: #f0f0f0;
             cursor: pointer;
             font-size: 16px;
-            border-radius: 5px;
+            border-radius: 8px;
             transition: 0.3s;
+            font-weight: 600;
         }
 
         .form-toggle button.active {
-            background: #007BFF;
+            background: rgb(255, 94, 0);
             color: white;
         }
 
-        .form-toggle button:disabled {
-            cursor: not-allowed;
-            opacity: 0.6;
+        .form-toggle button:not(.active):hover {
+            background: #e0e0e0;
         }
 
-        /* Form Styles */
-        form {
-            text-align: left;
+        .form-group {
+            margin-bottom: 20px;
         }
 
-        form input {
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-control {
             width: 100%;
-            padding: 10px;
-            margin-top: 8px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
         }
 
-        form button {
+        .form-control:focus {
+            border-color: rgb(255, 94, 0);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 94, 0, 0.2);
+        }
+
+        .auth-btn {
             width: 100%;
-            padding: 10px;
-            background: #007BFF;
+            padding: 12px;
+            background: rgb(255, 94, 0);
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
             transition: 0.3s;
+            margin-top: 10px;
         }
 
-        form button:hover {
-            background: #0056b3;
+        .auth-btn:hover {
+            background: rgb(230, 85, 0);
+            transform: translateY(-2px);
         }
 
-        /* Hide login form initially */
-        #login-form {
-            display: none;
+        .error-message {
+            color: #e74c3c;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: rgba(231, 76, 60, 0.1);
+            border-radius: 5px;
+            font-size: 14px;
+            text-align: center;
         }
 
-        /* Error Message */
-        .error {
-            color: red;
-            margin-bottom: 15px;
+        .success-message {
+            color: #2ecc71;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: rgba(46, 204, 113, 0.1);
+            border-radius: 5px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        /* Footer */
+        .footer-section {
+            background-color: #333;
+            color: white;
+            padding: 20px 0;
+        }
+
+        /* Animation for form switching */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .auth-card {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Accessibility Widget -->
+    <script src="https://cdn.jsdelivr.net/gh/jerit-baiju/a11y-widget@latest/script.js"></script>
 
-<div class="container">
-    <h2 id="form-title">Create an Account</h2>
-
-    {% if error %}
-        <p class="error">{{ error }}</p>
-    {% endif %}
-
-    <!-- Toggle Buttons -->
-    <div class="form-toggle">
-        <button id="register-btn" class="active" onclick="showForm(event, 'register')">Sign Up</button>
-        <button id="login-btn" onclick="showForm(event, 'login')">Log In</button>
-    </div>
-
-    <!-- Registration Form -->
-    <form id="register-form" method="POST" action="/create_account">
-        {% csrf_token %}
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top" id="ftco-navbar" style="background-color: white;">
+        <div class="container">
+            <a class="navbar-brand" href="index"><img src="static/images/logo.png" alt="logo of Mozilla RCC"></a>
+    
+            <button class="btn1 navbar-toggler" type="button" data-bs-toggle="collapse" 
+            data-bs-target="#navbarContent" aria-controls="navbarContent" 
+            aria-expanded="false" aria-label="Toggle navigation">          
+                <span class="icon">
+                    <svg viewBox="0 0 175 80" width="40" height="40">
+                        <rect width="60" height="10" fill="#f0f0f0" rx="10"></rect>
+                        <rect y="30" width="60" height="10" fill="#f0f0f0" rx="10"></rect>
+                        <rect y="60" width="60" height="10" fill="#f0f0f0" rx="10"></rect>
+                    </svg>
+                </span>
+            </button>
         
-        <label for="name">Username Name</label>
-        <input type="text" id="name" name="name" required>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a href="index" class="nav-link" style="color: black;">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="about" class="nav-link" style="color: black;">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="deliverables" class="nav-link" style="color: black;">Deliverables</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="course" class="nav-link" style="color: black;">Course</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="event" class="nav-link" style="color: black;">Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="projects" class="nav-link" style="color: black;">Projects</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="create_account" class="nav-link" style="color: orange; ">Sign In</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-        <label for="email">Email Address</label>
-        <input type="email" id="email" name="email" required>        
+    <!-- Main Content -->
+    <main role="main">
+        <div class="auth-container">
+            <div class="auth-card">
+                <h2 class="form-title" id="form-title">Create an Account</h2>
 
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required>
+                {% if messages %}
+                {% for message in messages %}
+                    <div class="error-message">
+                        <i class="fas fa-exclamation-circle"></i> {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
 
-        <button type="submit">Create Account</button>
-    </form>
+                <!-- Toggle Buttons -->
+                <div class="form-toggle">
+                    <button id="register-btn" class="active" onclick="showForm(event, 'register')">Sign Up</button>
+                    <button id="login-btn" onclick="showForm(event, 'login')">Log In</button>
+                </div>
 
-    <!-- Login Form -->
-    <form id="login-form" method="POST" action="/login_view">
-        {% csrf_token %}
-        
-        <label for="login-username">Username</label>
-        <input type="text" id="login-username" name="username" required>
+                <!-- Registration Form -->
+                <form id="register-form" method="POST" action="/create_account" class="fade-in">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label for="name"><i class="fas fa-user"></i> Username</label>
+                        <input type="text" id="name" name="name" class="form-control" required placeholder="Enter your username">
+                    </div>
 
-        <label for="login-password">Password</label>
-        <input type="password" id="login-password" name="password" required>
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
+                        <input type="email" id="email" name="email" class="form-control" required placeholder="Enter your email">
+                    </div>        
 
-        <button type="submit">Log In</button>
-    </form>
-</div>
+                    <div class="form-group">
+                        <label for="password"><i class="fas fa-lock"></i> Password</label>
+                        <input type="password" id="password" name="password" class="form-control" required placeholder="Create a password">
+                    </div>
 
-<script>
-    function showForm(event, formType) {
-        event.preventDefault(); // Prevents any default action
+                    <button type="submit" class="auth-btn">
+                        <i class="fas fa-user-plus"></i> Create Account
+                    </button>
+                </form>
 
-        if (formType === 'register') {
-            document.getElementById('register-form').style.display = 'block';
-            document.getElementById('login-form').style.display = 'none';
+                <!-- Login Form -->
+                <form id="login-form" method="POST" action="/login_view" style="display: none;" class="fade-in">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label for="login-username"><i class="fas fa-user"></i> Username</label>
+                        <input type="text" id="login-username" name="username" class="form-control" required placeholder="Enter your username">
+                    </div>
 
-            document.getElementById('name').required = true;
-            document.getElementById('username').required = true;
-            document.getElementById('password').required = true;
+                    <div class="form-group">
+                        <label for="login-password"><i class="fas fa-lock"></i> Password</label>
+                        <input type="password" id="login-password" name="password" class="form-control" required placeholder="Enter your password">
+                    </div>
 
-            document.getElementById('login-username').disabled = true;
-            document.getElementById('login-password').disabled = true;
+                    <button type="submit" class="auth-btn">
+                        <i class="fas fa-sign-in-alt"></i> Log In
+                    </button>
+                </form>
+            </div>        
+        </div>
+    </main>
 
-            document.getElementById('form-title').innerText = 'Create an Account';
-            
-            // Highlight Register button & Disable Login button
-            document.getElementById('register-btn').classList.add('active');
-            document.getElementById('register-btn').disabled = true;
-            document.getElementById('login-btn').classList.remove('active');
-            document.getElementById('login-btn').disabled = false;
-        } else {
-            document.getElementById('register-form').style.display = 'none';
-            document.getElementById('login-form').style.display = 'block';
+    <!-- Footer -->
+    <footer class="ftco-footer ftco-section img" style="color: white;">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-md-3">
+                    <div class="ftco-footer-widget mb-4">
+                        <h2 class="ftco-heading-2" style="color: white;">About Us</h2>
+                        <p style="color: white;">Marian College, a leader in transformative education, partners with Mozilla to advance ethical, inclusive, and responsible computing.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="ftco-footer-widget mb-4">
+                        <h2 class="ftco-heading-2" style="color: white;">Recent Events</h2>
 
-            document.getElementById('name').required = false;
-            document.getElementById('username').required = false;
-            document.getElementById('password').required = false;
+                        <div class="block-21 mb-4 d-flex">
+                            <a class="blog-img mr-4" style="background-image: url(static/images/conclave.avif);"></a>
+                            <div class="text">
+                                <h3 class="heading" style="color: white;"><a href="event#conclave">Global Conclave</a></h3>
+                                <div class="meta">
+                                    <div><span class="fa fa-calendar"></span> Oct. 22, 2024</div>
+                                </div>
+                            </div>
+                        </div>
 
-            document.getElementById('login-username').disabled = false;
-            document.getElementById('login-password').disabled = false;
+                        <div class="block-21 mb-4 d-flex">
+                            <a class="blog-img mr-4" style="background-image: url(static/images/panel_discussion.avif);"></a>
+                            <div class="text">
+                                <h3 class="heading" style="color: white;"><a href="event#panel">Panel discussion</a></h3>
+                                <div class="meta">
+                                    <div><span class="fa fa-calendar"></span> Oct. 8, 2024</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="ftco-footer-widget mb-4 ml-md-4">
+                        <h2 class="ftco-heading-2" style="color: white;">Site Links</h2>
+                        <ul class="list-unstyled">
+                            <li><a href="index" class="py-2 d-block" style="color: white;">Home</a></li>
+                            <li><a href="about" class="py-2 d-block" style="color: white;">About</a></li>
+                            <li><a href="deliverables" class="py-2 d-block" style="color: white;">Deliverables</a></li>
+                            <li><a href="course" class="py-2 d-block" style="color: white;">Course</a></li>
+                            <li><a href="event" class="py-2 d-block" style="color: white;">Events</a></li>
+                            <li><a href="projects" class="py-2 d-block" style="color: white;">Projects</a></li>
+                            <li><a href="create_account" class="py-2 d-block" style="color: white;">Sign In</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="ftco-footer-widget mb-4">
+                        <h2 class="ftco-heading-2" style="color: white;">Have a Questions?</h2>
+                        <div class="block-23 mb-3">
+                            <ul>
+                                <li><span class="fa fa-map-marker-alt"></span><span class="text" style="color: white;">&nbsp; Kuttikkanam P.O, Peermade, Idukki District, Kerala, India</span></li>
+                                <li><span class="fa fa-envelope"></span><span class="text" style="color: white;">&nbsp; rcc@mariancollege.org</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 
-            document.getElementById('form-title').innerText = 'Log In';
-            
-            // Highlight Login button & Disable Register button
-            document.getElementById('register-btn').classList.remove('active');
-            document.getElementById('register-btn').disabled = false;
-            document.getElementById('login-btn').classList.add('active');
-            document.getElementById('login-btn').disabled = true;
+    <!-- Scripts -->
+    <script src="static/js/jquery.min.js"></script>
+    <script src="static/js/jquery-migrate-3.0.1.min.js"></script>
+    <script src="static/js/popper.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+    <script src="static/js/jquery.easing.1.3.js"></script>
+    <script src="static/js/jquery.waypoints.min.js"></script>
+    <script src="static/js/jquery.stellar.min.js"></script>
+    <script src="static/js/owl.carousel.min.js"></script>
+    <script src="static/js/aos.js"></script>
+    <script src="static/js/jquery.animateNumber.min.js"></script>
+    <script src="static/js/scrollax.min.js"></script>
+    <script src="static/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Form Toggle Script -->
+    <script>
+        function showForm(event, formType) {
+            event.preventDefault(); // Prevents any default action
+
+            const registerForm = document.getElementById('register-form');
+            const loginForm = document.getElementById('login-form');
+            const registerBtn = document.getElementById('register-btn');
+            const loginBtn = document.getElementById('login-btn');
+            const formTitle = document.getElementById('form-title');
+
+            if (formType === 'register') {
+                registerForm.style.display = 'block';
+                loginForm.style.display = 'none';
+                formTitle.innerText = 'Create an Account';
+                
+                // Update button styles
+                registerBtn.classList.add('active');
+                loginBtn.classList.remove('active');
+                
+                // Add animation
+                registerForm.classList.remove('fade-in');
+                void registerForm.offsetWidth; // Trigger reflow
+                registerForm.classList.add('fade-in');
+            } else {
+                registerForm.style.display = 'none';
+                loginForm.style.display = 'block';
+                formTitle.innerText = 'Log In';
+                
+                // Update button styles
+                registerBtn.classList.remove('active');
+                loginBtn.classList.add('active');
+                
+                // Add animation
+                loginForm.classList.remove('fade-in');
+                void loginForm.offsetWidth; // Trigger reflow
+                loginForm.classList.add('fade-in');
+            }
         }
-    }
-</script>
 
+        // Automatically adjust auth container height based on form
+        window.addEventListener('DOMContentLoaded', function() {
+            const handleResize = () => {
+                const navHeight = document.getElementById('ftco-navbar').offsetHeight;
+                document.querySelector('.auth-container').style.marginTop = (navHeight + 20) + 'px';
+            };
+
+            handleResize();
+            window.addEventListener('resize', handleResize);
+        });
+    </script>
+
+    <!-- Accessibility Widget Positioning -->
+    <script>
+        function moveAccessibilityWidget() {
+            const widgetButton = document.querySelector("#accessibility-toggle");
+            const widgetPanel = document.querySelector(".a11y-widget-container");
+
+            if (widgetButton) {
+                widgetButton.style.position = "fixed";
+                widgetButton.style.right = "20px";
+                widgetButton.style.left = "auto"; 
+                widgetButton.style.bottom = "20px";
+                widgetButton.style.zIndex = "9999";
+            }
+
+            if (widgetPanel) {
+                widgetPanel.style.position = "fixed";
+                widgetPanel.style.right = "20px";
+                widgetPanel.style.left = "auto";
+                widgetPanel.style.bottom = "60px";
+                widgetPanel.style.maxWidth = "320px"; 
+                widgetPanel.style.transform = "none"; 
+            }
+        }
+
+        const forcePositionInterval = setInterval(() => {
+            moveAccessibilityWidget();
+        }, 1000);
+
+        setTimeout(() => {
+            clearInterval(forcePositionInterval);
+        }, 10000);
+    </script>
 </body>
 </html>

@@ -14,7 +14,7 @@ class Event(models.Model):
 
 
 class Registration(models.Model):
-    email = models.ForeignKey(User, on_delete=models.CASCADE, to_field='email', related_name="registrations")
+    email = models.EmailField(unique=True)
     name = models.CharField(max_length=255)
     phone = models.CharField(max_length=20)
     country_code = models.CharField(max_length=5, default="+91")

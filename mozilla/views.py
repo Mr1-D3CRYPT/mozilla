@@ -66,10 +66,15 @@ def create_account(request):
         email = request.POST.get("email")
         password = request.POST.get("password")
 
-        user = User.objects.create_user(username=name, email=email, password=password)
-        login(request, user)
+        if User.objects.filter(username=name).exists():
+            messages.error(request, "Username already taken. Please choose another one.")
+            return render(request, "create_account.html")
+   
+        else: 
+            user = User.objects.create_user(username=name, email=email, password=password)
+            login(request, user)
 
-        return redirect("account") 
+            return redirect("account") 
 
     return render(request, "create_account.html")
 
@@ -80,19 +85,16 @@ def login_view(request):
 
         user = authenticate(request, username=username, password=password)
 
-        print(user)
-
         if user is not None:
-            print("in")
-            login(request, user) 
-            return redirect("account")
+            login(request, user)
+            return redirect("account")  
         else:
-            print("out")
-            messages.error(request, "Invalid email or password. Please try again.")
-            return redirect("create_account")
+            messages.error(request, "Incorrect username or password. Please try again.")
+            return redirect("create_account") 
+
     else:
-        messages.error(request, "Invalid email or password. Please try again.")
-        return redirect("create_account")
+        messages.error(request, "Something went wrong. Please try again.")
+        return redirect("create_account")  
 
 @csrf_exempt
 def place_order(request):
@@ -115,7 +117,7 @@ def place_order(request):
                 return JsonResponse({"status": "error", "message": "Missing required fields"}, status=400)
 
             # Store in the database
-            registration = Registration.objects.create(
+            Registration.objects.create(
                 name=name,
                 email=email,
                 phone=phone,
