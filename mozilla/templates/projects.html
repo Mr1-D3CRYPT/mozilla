@@ -236,7 +236,7 @@
                     <!-- Authentication Check -->
         {% if user.is_authenticated %}
         <li class="nav-item">
-            <a href="account" class="nav-link" style="color: black;">Account</a>
+            <a href="account" class="nav-link" style="color: black;">|| Hey {{ user.username }}</a>
         </li>
       {% else %}
         <li class="nav-item">

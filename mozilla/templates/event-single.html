@@ -248,16 +248,16 @@
           <li class="nav-item">
             <a href="projects" class="nav-link" style="color: black;">Projects</a>
           </li>
-                              <!-- Authentication Check -->
-                              {% if user.is_authenticated %}
-                              <li class="nav-item">
-                                  <a href="account" class="nav-link" style="color: black;">Account</a>
-                              </li>
-                            {% else %}
-                              <li class="nav-item">
-                                  <a href="create_account" class="nav-link" style="color: black;">Sign In</a>
-                              </li>
-                            {% endif %}
+          <!-- Authentication Check -->
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a href="account" class="nav-link" style="color: black;">|| Hey {{ user.username }}</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a href="create_account" class="nav-link" style="color: black;">Sign In</a>
+          </li>
+          {% endif %}
         </ul>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
       </div>
@@ -281,12 +281,13 @@
               Conducted by: UG Department of Computer Applications in association with Mozilla RCC
             </p>
       
-            <!-- Download Brochure Button -->
+            {% load static %}
             <div class="mb-4">
-              <a href="syllabus/brochure.pdf" download class="btn btn-primary brochure-btn">
-                📄 Download Brochure
-              </a>
+                <a href="{% static 'brochure.pdf' %}" download class="btn btn-primary brochure-btn">
+                    📄 Download Brochure
+                </a>
             </div>
+            
 
             {% if request.user.is_authenticated %}
             <div class="mb-4">

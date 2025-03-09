@@ -12,9 +12,8 @@ class Event(models.Model):
     def __str__(self):
         return self.name
 
-
 class Registration(models.Model):
-    email = models.EmailField(unique=True)
+    email = models.OneToOneField(User, on_delete=models.CASCADE, related_name="registration")
     name = models.CharField(max_length=255)
     phone = models.CharField(max_length=20)
     country_code = models.CharField(max_length=5, default="+91")
@@ -26,7 +25,7 @@ class Registration(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.name} - {self.payment_id}"
+        return f"{self.user} - {self.payment_id}"
    
 class Project(models.Model):
     name = models.CharField(max_length=255)

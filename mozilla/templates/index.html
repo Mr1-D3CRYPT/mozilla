@@ -234,7 +234,7 @@
                     <!-- Authentication Check -->
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a href="account" class="nav-link" style="color: black;">Account</a>
+                        <a href="account" class="nav-link" style="color: black;">|| Hey {{ user.username }}</a>
                     </li>
                   {% else %}
                     <li class="nav-item">
@@ -413,16 +413,15 @@
                 <li><a href="course" class="py-2 d-block" style="color: white;">Course</a></li>
                 <li><a href="event" class="py-2 d-block" style="color: white;">Events</a></li>
                 <li><a href="projects" class="py-2 d-block" style="color: white;">Projects</a></li>
-                                          <!-- Authentication Check -->
-                                          {% if user.is_authenticated %}
-                                          <li class="nav-item">
-                                              <a href="account" class="py-2 d-block" style="color: white;">Account</a>
-                                          </li>
-                                        {% else %}
-                                          <li class="nav-item">
-                                              <a href="create_account" class="py-2 d-block" style="color: white;">Sign In</a>
-                                          </li>
-                                        {% endif %}
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                  <a href="account" class="py-2 d-block" style="color: white;">Account</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                  <a href="create_account" class="py-2 d-block" style="color: white;">Sign In</a>
+                </li>
+                {% endif %}
               </ul>
             </div>
           </div>
