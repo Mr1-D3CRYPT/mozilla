@@ -4,8 +4,11 @@ import json
 from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+
 
 def index(request):
     team_members = TeamMember.objects.all()
@@ -40,8 +43,22 @@ def event_single(request):
 def registration(request):
     return render(request, 'registration.html')
 
+
 def account(request):
-    return render(request, 'account.html')
+        try:
+            registration = Registration.objects.get(name=request.user.username)
+        except Registration.DoesNotExist:
+            registration = None
+
+        return render(request, "account.html", {
+            "registration": registration,
+            "user": request.user 
+        })
+
+
+def logout_view(request):
+    logout(request)
+    return redirect("create_account")
 
 def create_account(request):
     if request.method == "POST":
@@ -49,26 +66,33 @@ def create_account(request):
         email = request.POST.get("email")
         password = request.POST.get("password")
 
-        # Validate required fields
-        if not name or not email or not password:
-            return render(request, "account_creation.html", {"error": "All fields are required."})
-
-        # Check if the email already exists
-        if User.objects.filter(email=email).exists():
-            return render(request, "account_creation.html", {"error": "Email already exists."})
-
-        # Create the user
         user = User.objects.create_user(username=name, email=email, password=password)
-
-        # Log the user in immediately after account creation
         login(request, user)
 
-        # Redirect to the registration page after successful sign-up
-        return redirect("registration")  # Change to your actual registration URL name
+        return redirect("account") 
 
-    return render(request, "account_creation.html")
+    return render(request, "create_account.html")
 
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
 
+        user = authenticate(request, username=username, password=password)
+
+        print(user)
+
+        if user is not None:
+            print("in")
+            login(request, user) 
+            return redirect("account")
+        else:
+            print("out")
+            messages.error(request, "Invalid email or password. Please try again.")
+            return redirect("create_account")
+    else:
+        messages.error(request, "Invalid email or password. Please try again.")
+        return redirect("create_account")
 
 @csrf_exempt
 def place_order(request):

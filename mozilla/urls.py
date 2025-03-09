@@ -14,4 +14,6 @@ urlpatterns = [
     path('place-order', views.place_order, name='place-order'),
     path('create_account', views.create_account, name='create_account'),
     path("account", views.account, name="account"),
+    path("logout_view", views.logout_view, name="logout"),
+    path("login_view", views.login_view, name="login"),
 ]

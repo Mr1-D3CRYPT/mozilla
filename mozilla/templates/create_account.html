@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register & Login</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Centering the form with top padding */
+        .container {
+            width: 100%;
+            max-width: 400px;
+            margin: 15% auto; /* Top padding of 15% */
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Title */
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* Toggle Buttons */
+        .form-toggle {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .form-toggle button {
+            width: 48%;
+            padding: 10px;
+            border: none;
+            background: #f0f0f0;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .form-toggle button.active {
+            background: #007BFF;
+            color: white;
+        }
+
+        .form-toggle button:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        /* Form Styles */
+        form {
+            text-align: left;
+        }
+
+        form input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        form button {
+            width: 100%;
+            padding: 10px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        form button:hover {
+            background: #0056b3;
+        }
+
+        /* Hide login form initially */
+        #login-form {
+            display: none;
+        }
+
+        /* Error Message */
+        .error {
+            color: red;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 id="form-title">Create an Account</h2>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <!-- Toggle Buttons -->
+    <div class="form-toggle">
+        <button id="register-btn" class="active" onclick="showForm(event, 'register')">Sign Up</button>
+        <button id="login-btn" onclick="showForm(event, 'login')">Log In</button>
+    </div>
+
+    <!-- Registration Form -->
+    <form id="register-form" method="POST" action="/create_account">
+        {% csrf_token %}
+        
+        <label for="name">Username Name</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required>        
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit">Create Account</button>
+    </form>
+
+    <!-- Login Form -->
+    <form id="login-form" method="POST" action="/login_view">
+        {% csrf_token %}
+        
+        <label for="login-username">Username</label>
+        <input type="text" id="login-username" name="username" required>
+
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" name="password" required>
+
+        <button type="submit">Log In</button>
+    </form>
+</div>
+
+<script>
+    function showForm(event, formType) {
+        event.preventDefault(); // Prevents any default action
+
+        if (formType === 'register') {
+            document.getElementById('register-form').style.display = 'block';
+            document.getElementById('login-form').style.display = 'none';
+
+            document.getElementById('name').required = true;
+            document.getElementById('username').required = true;
+            document.getElementById('password').required = true;
+
+            document.getElementById('login-username').disabled = true;
+            document.getElementById('login-password').disabled = true;
+
+            document.getElementById('form-title').innerText = 'Create an Account';
+            
+            // Highlight Register button & Disable Login button
+            document.getElementById('register-btn').classList.add('active');
+            document.getElementById('register-btn').disabled = true;
+            document.getElementById('login-btn').classList.remove('active');
+            document.getElementById('login-btn').disabled = false;
+        } else {
+            document.getElementById('register-form').style.display = 'none';
+            document.getElementById('login-form').style.display = 'block';
+
+            document.getElementById('name').required = false;
+            document.getElementById('username').required = false;
+            document.getElementById('password').required = false;
+
+            document.getElementById('login-username').disabled = false;
+            document.getElementById('login-password').disabled = false;
+
+            document.getElementById('form-title').innerText = 'Log In';
+            
+            // Highlight Login button & Disable Register button
+            document.getElementById('register-btn').classList.remove('active');
+            document.getElementById('register-btn').disabled = false;
+            document.getElementById('login-btn').classList.add('active');
+            document.getElementById('login-btn').disabled = true;
+        }
+    }
+</script>
+
+</body>
+</html>
