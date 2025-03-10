@@ -331,13 +331,15 @@
         <hr class="mb-4">
     
         {% if registration %}
+          {% for registration in registration %}
             <!-- Show Registration Details -->
             <div class="card shadow-sm rounded">
                 <div class="card-body p-4">
-                    <h5 class="card-title fw-bold mb-4">{{ registration.name }}</h5>
+                    <h5 class="card-title fw-bold mb-4">Username: {{ user.username }}</h5>
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <p class="card-text"><strong>Email:</strong> {{ registration.email }}</p>
+                            <p class="card-text"><strong>Name:</strong> {{ registration.name }}</p>
+                            <p class="card-text"><strong>Email:</strong> {{ user.email }}</p>
                             <p class="card-text"><strong>Phone:</strong> {{ registration.phone }}</p>
                             <p class="card-text"><strong>Country Code:</strong> {{ registration.country_code }}</p>
                             <p class="card-text"><strong>Institution:</strong> {{ registration.institution }}</p>
@@ -347,7 +349,7 @@
                             <p class="card-text"><strong>Total Amount:</strong> ${{ registration.total_amount }}</p>
                             <p class="card-text"><strong>Payment ID:</strong> {{ registration.payment_id }}</p>
                             <p class="card-text"><strong>Payment Status:</strong> 
-                                {% if registration.payment_status == "Completed" %}
+                                {% if registration.payment_status == "Paid" %}
                                     <span class="badge bg-success px-3 py-2">Completed</span>
                                 {% else %}
                                     <span class="badge bg-warning px-3 py-2">Pending</span>
@@ -358,6 +360,7 @@
                     <p class="card-text mt-3"><small class="text-muted fst-italic">Registered on {{ registration.created_at }}</small></p>
                 </div>
             </div>
+          {% endfor %}
         {% else %}
             <!-- Show Basic User Info If No Registration Found -->
             <div class="card shadow-sm rounded">

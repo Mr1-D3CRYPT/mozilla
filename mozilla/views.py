@@ -8,6 +8,7 @@ from django.contrib.auth import login, logout
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 
 def index(request):
@@ -40,13 +41,15 @@ def event(request):
 def event_single(request):
     return render(request, 'event-single.html')
 
+
+@login_required(login_url='/login_view')
 def registration(request):
-    return render(request, 'registration.html')
+    return render(request, 'registration.html',{'user_email': request.user.email})
 
-
+@login_required(login_url='/login_view')
 def account(request):
         try:
-            registration = Registration.objects.get(name=request.user.username)
+            registration = Registration.objects.filter(username=request.user)
         except Registration.DoesNotExist:
             registration = None
 
@@ -59,6 +62,7 @@ def account(request):
 def logout_view(request):
     logout(request)
     return redirect("create_account")
+
 
 def create_account(request):
     if request.method == "POST":
@@ -92,19 +96,21 @@ def login_view(request):
             messages.error(request, "Incorrect username or password. Please try again.")
             return redirect("create_account") 
 
+    elif request.user.is_authenticated:
+        return redirect("account")
+
     else:
-        messages.error(request, "Something went wrong. Please try again.")
+        messages.error(request, "You must logged-in to proceed!")
         return redirect("create_account")  
 
 @csrf_exempt
+@login_required(login_url='/login_view')
 def place_order(request):
     if request.method == "POST":
         try:
-            # Read JSON data from request body
-            data = json.loads(request.body)
+            data = json.loads(request.body.decode('utf-8'))
 
             name = data.get("name")
-            email = data.get("email")
             phone = data.get("phone")
             country_code = data.get("country_code", "+91")
             institution = data.get("institution")
@@ -112,14 +118,17 @@ def place_order(request):
             total_amount = data.get("total_amount")
             payment_id = data.get("payment_id")
 
+            user = request.user
+            email = user.email 
+
             # Ensure all required fields are received
-            if not all([name, email, phone, institution, selected_events, total_amount, payment_id]):
+            if not all([name, phone, institution, selected_events, total_amount, payment_id]):
                 return JsonResponse({"status": "error", "message": "Missing required fields"}, status=400)
 
             # Store in the database
             Registration.objects.create(
+                username=user,
                 name=name,
-                email=email,
                 phone=phone,
                 country_code=country_code,
                 institution=institution,

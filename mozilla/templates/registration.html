@@ -241,12 +241,7 @@
                 <input type="text" class="form-control input-field" id="name" required placeholder="Enter your full name">
             </div>
 
-            <!-- Email -->
-            <div class="mb-3">
-                <label class="form-label">Email Address</label>
-                <input type="email" class="form-control input-field" id="email" required placeholder="you@example.com">
-                <small class="text-danger" id="emailError" style="display: none;">Invalid email format</small>
-            </div>
+            <input type="hidden" id="userEmail" value="{{ user.email }}">
 
             <!-- Country Code & Phone Number Input -->
             <div class="mb-3">
@@ -319,18 +314,7 @@
         $(".event-checkbox").change(function () {
             calculateTotalPrice();
         });
-
-        // Email Validation
-        $("#email").on("input", function () {
-            var email = $(this).val();
-            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(email)) {
-                $("#emailError").show();
-            } else {
-                $("#emailError").hide();
-            }
-        });
-
+        
         // Phone Number Validation (10 digits, only numbers)
         $("#phone").on("input", function () {
             var phoneNumber = $(this).val();
@@ -347,13 +331,12 @@
 
         // Country Code Validation (Only numbers, max 3 digits)
         $("#countryCode").on("input", function () {
-            var countryCode = $(this).val().replace(/\D/g, ""); // Remove non-numeric characters
+            var countryCode = $(this).val().replace(/\D/g, "");
             if (countryCode.length > 3) {
-                countryCode = countryCode.substring(0, 3); // Restrict to max 3 digits
+                countryCode = countryCode.substring(0, 3); 
             }
-            $(this).val(countryCode); // Update input value with only numbers
+            $(this).val(countryCode);
 
-            // Validation feedback
             if (/^\d{1,3}$/.test(countryCode)) {
                 $(this).removeClass("is-invalid").addClass("is-valid");
             } else {
@@ -382,7 +365,7 @@
             e.preventDefault();
 
             var name = $("#name").val().trim();
-            var email = $("#email").val().trim();
+            var email = $("#userEmail").val().trim();
             var phone = $("#phone").val().trim();
             var countryCode = $("#countryCode").val().trim();
             var institution = $("#institution").val().trim();
