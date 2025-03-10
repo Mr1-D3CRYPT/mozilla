@@ -39,7 +39,8 @@ def event(request):
     return render(request, 'event.html', {'events': events}) 
 
 def event_single(request):
-    return render(request, 'event-single.html')
+    registrations = Registration.objects.filter(username=request.user) if request.user.is_authenticated else []
+    return render(request, 'event-single.html', {'registrations': registrations})
 
 
 @login_required(login_url='/login_view')

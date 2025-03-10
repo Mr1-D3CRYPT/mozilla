@@ -290,18 +290,27 @@
             
 
             {% if request.user.is_authenticated %}
-            <div class="mb-4">
-                <a href="registration" class="btn btn-success register-btn">
-                    📝 Register Now
-                </a>
-            </div>
+              {% if registrations.exists %}
+                <div class="mb-4">
+                    <a href="{% url 'account' %}" class="btn btn-primary">
+                        🔍 Click here to view registrations
+                    </a>
+                </div>
+              {% else %}
+              <div class="mb-4">
+                  <a href="{% url 'registration' %}" class="btn btn-success register-btn">
+                      📝 Register Now
+                  </a>
+              </div>
+              {% endif %}
             {% else %}
             <div class="mb-4">
-                <a href="create_account" class="btn btn-success register-btn">
+                <a href="{% url 'create_account' %}" class="btn btn-success register-btn">
                     📝 Create Account/Login to Register Now
                 </a>
             </div>
-            {% endif %}
+          {% endif %}
+        
         
           </div>
         </div>
